@@ -27,7 +27,7 @@ some-project
 └── .gitignore
 ```
 
-The files look like this
+The files and the output look like this
 <table>
 <thead>
   <tr>
@@ -38,8 +38,7 @@ The files look like this
 <tbody>
   <tr>
   <td valign="top">
-  <p>Look at this code:</p>
-
+  
   ```html
   <!DOCTYPE html>
   <html lang="en">
@@ -49,14 +48,16 @@ The files look like this
     <title>Document</title>
   </head>
   <body>
+    <!-- It serves as a container for your React app -->
     <div id="root"></div>
   </body>
   </html>
   ```
 
+  <p>This is what gets sent to the browser along with <code>index.js</code>. It serves as the entry point of your app.</p>
+  <p>Even though there is no direct reference to <code>index.js</code> in this file, it will be bundled and loaded by some JS bundler (like webpack) when this app is built for production.</p>
   </td>
   <td valign="top">
-  <p>Look at this code:</p>
   
   ```js
   import React, { StrictMode } from "react";
@@ -64,8 +65,12 @@ The files look like this
   import "./styles.css";
   
   import App from "./App";
-  
+
+  // This creates a root node in the React DOM.
   const root = createRoot(document.getElementById("root"));
+  // When .render is called, App component is rendered into this root node of the React DOM.
+  // The React DOM is reconciled with the actual DOM by the React library,
+  // effectively "mounting" the App component to the real DOM.
   root.render(
     <StrictMode>
       <App />
@@ -73,6 +78,7 @@ The files look like this
   );
   ```
 
+  <p>Read the comments in this code above.</p>
   </td>
   </tr>
 </tbody>
@@ -89,7 +95,6 @@ The files look like this
 <tbody>
   <tr>
   <td valign="top">
-  <p>Look at this code:</p>
   
   ```js
   const user = {
@@ -116,10 +121,18 @@ The files look like this
   }
   ```
 
+  <p><i>Single curly brackets</i> <code>{}</code> are used to insert JavaScript expressions within the JSX.</p>
+  <p><i>Double curly brackets</i> <code>{{}}</code> are typically used for inline styling in JSX, the outer curly brackets <code>{}</code> are a placeholder for a JavaScript expression, the inner curly brackets <code>{}</code> represent a JavaScript object. So, <code>style={{width: user.imageSize, height: user.imageSize}}</code> is passing an object to the style attribute.</p>
+
+  <hr>
+
+  The output looks like this
+
+  <img width="150" alt="image" src="https://github.com/akhanalcs/react/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
+
   </td>
   <td valign="top">
-  <p>Look at this code:</p>
-  
+
   ```json
   {
     "name": "react.dev",
@@ -142,8 +155,7 @@ The files look like this
 
   </td>
   <td valign="top">
-  <p>Look at this code:</p>
-  
+
   ```css
   * {
     box-sizing: border-box;
@@ -207,8 +219,6 @@ The files look like this
 </tbody>
 </table>
 
-The output looks like this
 
-<img width="150" alt="image" src="https://github.com/akhanalcs/react/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
 
 
