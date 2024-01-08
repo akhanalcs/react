@@ -83,6 +83,7 @@ The files look like this
   <tr>
     <th><code>App.js</code></th>
     <th><code>package.json</code></th>
+    <th><code>styles.css</code></th>
   </tr>
 </thead>
 <tbody>
@@ -136,6 +137,68 @@ The files look like this
       "react-scripts": "^5.0.0"
     },
     "devDependencies": {}
+  }
+  ```
+
+  </td>
+  <td valign="top">
+  <p>Look at this code:</p>
+  
+  ```css
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: sans-serif;
+    margin: 20px;
+    padding: 0;
+  }
+  
+  h1 {
+    margin-top: 0;
+    font-size: 22px;
+  }
+  
+  h2 {
+    margin-top: 0;
+    font-size: 20px;
+  }
+  
+  h3 {
+    margin-top: 0;
+    font-size: 18px;
+  }
+  
+  h4 {
+    margin-top: 0;
+    font-size: 16px;
+  }
+  
+  h5 {
+    margin-top: 0;
+    font-size: 14px;
+  }
+  
+  h6 {
+    margin-top: 0;
+    font-size: 12px;
+  }
+  
+  code {
+    font-size: 1.2em;
+  }
+  
+  ul {
+    padding-inline-start: 20px;
+  }
+  
+  .avatar {
+    border-radius: 50%;
+  }
+  
+  .large {
+    border: 4px solid gold;
   }
   ```
 
