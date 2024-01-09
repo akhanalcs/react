@@ -219,6 +219,36 @@ The files and the output look like this
 </tbody>
 </table>
 
+### Using Hooks
+[Reference](https://react.dev/learn#using-hooks)
+
+Functions starting with use are called Hooks. `useState` is a built-in Hook provided by React.  
+Hooks are more restrictive than other functions. You can only call Hooks at the top of your components (or other Hooks). If you want to use `useState` in a condition or a loop, extract a new component and put it there.
+
+For eg:
+```js
+function MyComponent(props) {
+  if (props.condition) {
+    const [value, setValue] = useState(0); // ❌ Invalid Hook call
+  }
+  // ...
+}
+```
+The proper way:
+```js
+function MyComponent(props) {
+  if (props.condition) {
+    return <MySubComponent />;
+  }
+  // ...
+}
+
+function MySubComponent() {
+  const [value, setValue] = useState(0); // ✅ Valid Hook call
+  // ...
+}
+```
+
 
 
 
