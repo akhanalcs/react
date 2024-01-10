@@ -2,7 +2,7 @@
 Learning React from [official docs](https://react.dev/learn) and various other sources.
 
 ## Helpful links
-1. [JavaScript Info](https://javascript.info/)
+1. [JavaScript Info](https://javascript.info/)(Excellent)
 2. [10 React Hooks Explained](https://youtu.be/TNhaISOUy6Q?si=uGvmrS5tMAKaxS8e)
 3. [React Router in 45 minutes](https://youtu.be/Ul3y1LXxzdU?si=MPRoMioZ2wWVb7jH)
 
