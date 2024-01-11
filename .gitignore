@@ -7,7 +7,7 @@
 /bazel-out
 
 # Node
-/node_modules
+/tic-tac-toe/node_modules/
 npm-debug.log
 yarn-error.log
 
