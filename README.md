@@ -302,6 +302,10 @@ function MyButton({ count, onClick }) {
   ```bash
   npm install
   ```
+- Add `node_modules` folder to .gitignore.  
+  Right click `node_modules` folder -> Git -> Add to `.gitignore` -> `.gitignore`
+- Add `package-lock.json` file to source control.  
+  Right click `package-lock.json` file -> Git -> Add
 - Start local server
   ```bash
   npm start
