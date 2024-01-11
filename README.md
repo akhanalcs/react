@@ -251,6 +251,43 @@ function MySubComponent() {
 }
 ```
 
+### Sharing data between components
+[Reference](https://react.dev/learn#sharing-data-between-components)
 
+Read the comments below to see how the code works.
+
+```js
+import { useState } from "react";
+
+export default function MyApp() {
+  console.log("My App rendered.");
+  const [count, setCount] = useState(0);
+  const abc = 0;
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <h1>Counters that update together</h1>
+      <MyButton count={count} onClick={handleClick} />
+      <MyButton count={count} onClick={handleClick} />
+    </div>
+  );
+}
+
+// {} because we're destructuring/ unpack "props" object into distinct variables
+// In JS, primitive values (like numbers, strings, booleans) are passed by value while objects
+// (including arrays and functions) are passed by reference.
+// Here 'count' is passed by value but 'onClick' is passed by reference.
+// When this button is clicked, handleClick function in MyApp component is called which updates 'count' state
+// in MyApp component. Since 'count' is part of MyApp component's state, changing it will trigger re-render of
+// MyApp as well as child components that depend on that state (MyButton in this case).
+function MyButton({ count, onClick }) {
+  console.log("My button rendered.");
+  return <button onClick={onClick}>Clicked {count} times</button>;
+}
+```
 
 
