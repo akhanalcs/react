@@ -289,4 +289,23 @@ function MyButton({ count, onClick }) {
 }
 ```
 
+## Tic-tac-toe tutorial
+[Reference](https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial)
+### Setup local development
+- Download the code from the link referenced above
+- Clone this repo down to your local, and paste the code downloaded from previous step into it
+- Navigate into this folder
+  ```bash
+  cd ./tic-tac-toe/
+  ```
+- Install dependencies
+  ```bash
+  npm install
+  ```
+- Start local server
+  ```bash
+  npm start
+  ```
+  The script that gets called is this
+  https://github.com/akhanalcs/react/blob/f1943884e245f862ed69c4c22cbfa5d426321860/tic-tac-toe/package.json#L6
 
