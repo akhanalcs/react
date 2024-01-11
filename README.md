@@ -294,7 +294,8 @@ function MyButton({ count, onClick }) {
 ### Setup local development
 - Download the code from the link referenced above
 - Clone this repo down to your local, and paste the code downloaded from previous step into it
-- Navigate into this folder
+- Launch your IDE (I'm using Rider here) and open this folder
+- Open integrated terminal in your IDE and navigate into this folder
   ```bash
   cd ./tic-tac-toe/
   ```
@@ -312,4 +313,5 @@ function MyButton({ count, onClick }) {
   ```
   The script that gets called is this
   https://github.com/akhanalcs/react/blob/f1943884e245f862ed69c4c22cbfa5d426321860/tic-tac-toe/package.json#L6
+
 
