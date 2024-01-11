@@ -260,9 +260,8 @@ Read the comments below to see how the code works.
 import { useState } from "react";
 
 export default function MyApp() {
-  console.log("My App rendered.");
+  console.log("MyApp rendered.");
   const [count, setCount] = useState(0);
-  const abc = 0;
 
   function handleClick() {
     setCount(count + 1);
@@ -277,7 +276,7 @@ export default function MyApp() {
   );
 }
 
-// {} because we're destructuring/ unpack "props" object into distinct variables
+// {} in '{ count, onClick }' is because we're destructuring/ unpacking "props" object passed to it into distinct variables
 // In JS, primitive values (like numbers, strings, booleans) are passed by value while objects
 // (including arrays and functions) are passed by reference.
 // Here 'count' is passed by value but 'onClick' is passed by reference.
@@ -285,7 +284,7 @@ export default function MyApp() {
 // in MyApp component. Since 'count' is part of MyApp component's state, changing it will trigger re-render of
 // MyApp as well as child components that depend on that state (MyButton in this case).
 function MyButton({ count, onClick }) {
-  console.log("My button rendered.");
+  console.log("MyButton rendered.");
   return <button onClick={onClick}>Clicked {count} times</button>;
 }
 ```
