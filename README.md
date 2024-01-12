@@ -130,7 +130,7 @@ The files and the output look like this
 
   The output looks like this
 
-  <img width="150" alt="image" src="https://github.com/akhanalcs/react/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
+  <img width="150" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
 
   </td>
   <td valign="top">
@@ -287,6 +287,31 @@ function MyButton({ count, onClick }) {
   console.log("MyButton rendered.");
   return <button onClick={onClick}>Clicked {count} times</button>;
 }
+```
+
+### Css specificity
+Specificity is a concept in CSS that determines which styles will be applied to an element when there are conflicting styles.
+The specificity is calculated as a three-digit number (A, B, C):
+- 'A' refers to the count of inline styles (styles applied directly to the HTML element using the style attribute).
+- 'B' refers to the count of ID selectors.
+- 'C' refers to the count of class selectors, attribute selectors, and pseudo-classes.
+
+A > B > C
+
+For example
+```html
+<!-- Inline style (A=1,B=0,C=0) will take precedence -->
+<div id="some-id" class="some-class" style="color: blue;"> 
+    This text will be blue.
+</div>
+
+<style>
+    /* ID Selector (A=0,B=1,C=0) has higher specificity than class */
+    #some-id { color: red; } 
+
+    /* Class Selector (A=0,B=0,C=1) has the least specificity */
+    .some-class { color: green; } 
+</style>
 ```
 
 ## Tic-tac-toe tutorial
