@@ -316,6 +316,24 @@ function MyButton({ count, onClick }) {
 
   When the script was run, I got this message
   
+  <img width="500" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/a2934d61-6701-4a23-b608-a1fd0707cbbd">
+
+  I said 'Y' and it was able to run the app and launch a new browser window (in Edge). The config it added to `package.json` is
+  https://github.com/akhanalcs/reactjs/blob/48185e207c482b3f1621aebd32c3eeba8162cbda/tic-tac-toe/package.json#L17-L28
+
+  The config basically means which versions of which browsers to support with transpiled output.
+
+  In the "production" context, the following definitions apply:
+  - ">0.2%": This targets browsers with greater than 0.2% usage globally.
+  - "not dead": This targets browsers that are not "dead" (i.e., no longer updated by their respective organizations).
+  - "not op_mini all": This excludes the Opera Mini browser from the targeted browsers due to its certain limitations.
+  
+  In the "development" context, the following definitions apply:
+  - "last 1 chrome version": This targets the most recent version of Google Chrome.
+  - "last 1 firefox version": This targets the most recent version of Mozilla Firefox.
+  - "last 1 safari version": This targets the most recent version of Apple Safari.
+
+
 
 
 
