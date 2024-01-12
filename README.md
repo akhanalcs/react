@@ -314,4 +314,8 @@ function MyButton({ count, onClick }) {
   The script that gets called is this
   https://github.com/akhanalcs/react/blob/f1943884e245f862ed69c4c22cbfa5d426321860/tic-tac-toe/package.json#L6
 
+  When the script was run, I got this message
+  
+
+
 
