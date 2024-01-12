@@ -130,7 +130,7 @@ The files and the output look like this
 
   The output looks like this
 
-  <img width="150" alt="image" src="https://github.com/akhanalcs/react/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
+  <img width="150" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/30c467fe-f21e-47d1-b258-2b1449793047">
 
   </td>
   <td valign="top">
@@ -289,12 +289,38 @@ function MyButton({ count, onClick }) {
 }
 ```
 
+### Css specificity
+Specificity is a concept in CSS that determines which styles will be applied to an element when there are conflicting styles.
+The specificity is calculated as a three-digit number (A, B, C):
+- 'A' refers to the count of inline styles (styles applied directly to the HTML element using the style attribute).
+- 'B' refers to the count of ID selectors.
+- 'C' refers to the count of class selectors, attribute selectors, and pseudo-classes.
+
+A > B > C
+
+For example
+```html
+<!-- Inline style (A=1,B=0,C=0) will take precedence -->
+<div id="some-id" class="some-class" style="color: blue;"> 
+    This text will be blue.
+</div>
+
+<style>
+    /* ID Selector (A=0,B=1,C=0) has higher specificity than class */
+    #some-id { color: red; } 
+
+    /* Class Selector (A=0,B=0,C=1) has the least specificity */
+    .some-class { color: green; } 
+</style>
+```
+
 ## Tic-tac-toe tutorial
 [Reference](https://react.dev/learn/tutorial-tic-tac-toe#setup-for-the-tutorial)
 ### Setup local development
 - Download the code from the link referenced above
 - Clone this repo down to your local, and paste the code downloaded from previous step into it
-- Navigate into this folder
+- Launch your IDE (I'm using Rider here) and open this folder
+- Open integrated terminal in your IDE and navigate into this folder
   ```bash
   cd ./tic-tac-toe/
   ```
@@ -302,10 +328,37 @@ function MyButton({ count, onClick }) {
   ```bash
   npm install
   ```
+- Add `node_modules` folder to .gitignore.  
+  Right click `node_modules` folder -> Git -> Add to `.gitignore` -> `.gitignore`
+- Add `package-lock.json` file to source control.  
+  Right click `package-lock.json` file -> Git -> Add
 - Start local server
   ```bash
   npm start
   ```
   The script that gets called is this
   https://github.com/akhanalcs/react/blob/f1943884e245f862ed69c4c22cbfa5d426321860/tic-tac-toe/package.json#L6
+
+  When the script was run, I got this message
+  
+  <img width="500" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/a2934d61-6701-4a23-b608-a1fd0707cbbd">
+
+  I said 'Y' and it was able to run the app and launch a new browser window (in Edge). The config it added to `package.json` is
+  https://github.com/akhanalcs/reactjs/blob/48185e207c482b3f1621aebd32c3eeba8162cbda/tic-tac-toe/package.json#L17-L28
+
+  The config basically means which versions of which browsers to support with transpiled output.
+
+  In the "production" context, the following definitions apply:
+  - ">0.2%": This targets browsers with greater than 0.2% usage globally.
+  - "not dead": This targets browsers that are not "dead" (i.e., no longer updated by their respective organizations).
+  - "not op_mini all": This excludes the Opera Mini browser from the targeted browsers due to its certain limitations.
+  
+  In the "development" context, the following definitions apply:
+  - "last 1 chrome version": This targets the most recent version of Google Chrome.
+  - "last 1 firefox version": This targets the most recent version of Mozilla Firefox.
+  - "last 1 safari version": This targets the most recent version of Apple Safari.
+
+
+
+
 
