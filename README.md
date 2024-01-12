@@ -5,6 +5,9 @@ Learning React from [official docs](https://react.dev/learn) and various other s
 1. [JavaScript Info](https://javascript.info/)(Excellent)
 2. [10 React Hooks Explained](https://youtu.be/TNhaISOUy6Q?si=uGvmrS5tMAKaxS8e)
 3. [React Router in 45 minutes](https://youtu.be/Ul3y1LXxzdU?si=MPRoMioZ2wWVb7jH)
+4. [SSG vs CSR vs SSR vs ISR](https://youtu.be/XwswPqIXYoI?si=zIKP89FSV_HONWmF)
+5. [Visual Explanation of CSR, SSR, SSG and ISR](https://dev.to/pahanperera/visual-explanation-and-comparison-of-csr-ssr-ssg-and-isr-34ea)
+6. [Understanding CSR, SSR, SSG, and ISR](https://bootcamp.uxdesign.cc/understanding-csr-ssr-ssg-and-isr-a-next-js-perspective-fcaf36686de6)
 
 ## Quickstart
 https://react.dev/learn
