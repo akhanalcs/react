@@ -1,0 +1,5 @@
+{
+  // eslint-config-react-app and
+  // eslint-config-prettier
+  "extends": ["react-app", "prettier"]
+}
