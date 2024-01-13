@@ -392,4 +392,7 @@ React handles re-rendering of lists and updates to the Virtual DOM based on keys
 
 It’s strongly recommended that you assign proper keys whenever you build dynamic lists. If you don’t have an appropriate key, you may want to consider restructuring your data so that you do.
 
+## Thinking in React
+[This is excellent](https://react.dev/learn/thinking-in-react). Read it!
+
 
