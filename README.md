@@ -1,4 +1,4 @@
-# react
+# reactjs
 Learning React from [official docs](https://react.dev/learn) and various other sources.
 
 ## Helpful links
@@ -400,7 +400,7 @@ It’s strongly recommended that you assign proper keys whenever you build dynam
 I'm using Jetbrains Rider.
 
 ### Install Node
-Follow [this guide.](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/local-setup.md#setup-node)
+Follow [this guide](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/local-setup.md#setup-node).
 
 ## Editor Setup
 [Reference](https://react.dev/learn/editor-setup)
