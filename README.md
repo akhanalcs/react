@@ -5,6 +5,9 @@ Learning React from [official docs](https://react.dev/learn) and various other s
 1. [JavaScript Info](https://javascript.info/)(Excellent)
 2. [10 React Hooks Explained](https://youtu.be/TNhaISOUy6Q?si=uGvmrS5tMAKaxS8e)
 3. [React Router in 45 minutes](https://youtu.be/Ul3y1LXxzdU?si=MPRoMioZ2wWVb7jH)
+4. [SSG vs CSR vs SSR vs ISR](https://youtu.be/XwswPqIXYoI?si=zIKP89FSV_HONWmF)
+5. [Visual Explanation of CSR, SSR, SSG and ISR](https://dev.to/pahanperera/visual-explanation-and-comparison-of-csr-ssr-ssg-and-isr-34ea)
+6. [Understanding CSR, SSR, SSG, and ISR](https://bootcamp.uxdesign.cc/understanding-csr-ssr-ssg-and-isr-a-next-js-perspective-fcaf36686de6)
 
 ## Quickstart
 https://react.dev/learn
@@ -358,7 +361,35 @@ For example
   - "last 1 firefox version": This targets the most recent version of Mozilla Firefox.
   - "last 1 safari version": This targets the most recent version of Apple Safari.
 
+### Keys in dynamic lists
+[Reference](https://react.dev/learn/tutorial-tic-tac-toe#picking-a-key)
 
+React handles re-rendering of lists and updates to the Virtual DOM based on keys.
+1. If the current list has a key that didn’t exist before, React **creates** a component.
+   ```js
+    // Initial Render
+    const elements = [<li key="1">Element 1</li>];
+    // Re-render
+    const elements = [<li key="1">Element 1</li>, <li key="2">Element 2</li>];
+   ```
+   On re-render, React sees that key "2" didn't exist before. Therefore, it creates a new `li` component for "Element 2".
+2. If the current list is missing a key that existed in the previous list, React **destroys** the previous component.
+   ```js
+    // Initial Render
+    const elements = [<li key="1">Element 1</li>, <li key="2">Element 2</li>];
+    // Re-render
+    const elements = [<li key="1">Element 1</li>];
+   ```
+   On re-render, React notes that key "2" from the previous list doesn't exist in the current list. So, it removes the `li` component for "Element 2".
+3. If two keys match, the corresponding component is **moved**.
+   ```js
+    // Initial Render
+    const elements = [<li key="1">Element 1</li>, <li key="2">Element 2</li>];
+    // Re-render
+    const elements = [<li key="2">Element 2</li>, <li key="1">Element 1</li>];
+   ```
+   On re-render, React sees that the keys "1" and "2" still exist but in different positions. So, it "moves" them in the Virtual DOM to match the new order, rather than destroying and recreating them.
 
+It’s strongly recommended that you assign proper keys whenever you build dynamic lists. If you don’t have an appropriate key, you may want to consider restructuring your data so that you do.
 
 
