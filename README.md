@@ -395,4 +395,52 @@ It’s strongly recommended that you assign proper keys whenever you build dynam
 ## Thinking in React
 [This is excellent](https://react.dev/learn/thinking-in-react). Read it!
 
+## Editor Setup
+[Reference](https://react.dev/learn/editor-setup)
+
+### Linting
+[Reference](https://www.npmjs.com/package/eslint-config-react-app#usage-outside-of-create-react-app)
+```bash
+npm install --save-dev eslint-config-react-app eslint@^8.0.0
+```
+Then create a file named `.eslintrc.json` with following contents in the root folder of your project:
+```json
+{
+  "extends": "react-app"
+}
+```
+
+Then integrate ESLint in Rider [using this guide](https://www.jetbrains.com/help/webstorm/eslint.html#ws_js_eslint_automatic_configuration). 
+
+<img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/ae0778c0-cb31-4c57-9c54-c99ba3f34db7">
+
+Side note about `^` and `~` in version numbers
+
+- The caret (`^`) allows changes that do not include the next major version.<br>
+  For example, `^2.3.0` allows changes from `2.3.0` up to but not including `3.0.0`.
+- The tilde (`~`) allows changes that do not include the next minor version and major version, thereby only allowing patch-level changes for a given minor version.<br>
+  For example, `~2.3.0` allows changes from `2.3.0` up to but not including `2.4.0`.
+
+### Formatting
+[Reference](https://www.jetbrains.com/help/webstorm/prettier.html)
+
+```bash
+npm install --save-dev --save-exact prettier
+```
+
+Configure Prettier in Rider
+
+<img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/671519b5-c8bc-4708-848a-bde74887f6f8">
+
+[Turn off all rules that are unnecessary or might conflict with Prettier](https://github.com/prettier/eslint-config-prettier)
+```bash
+npm install --save-dev eslint-config-prettier
+```
+And add this to your ESLint configuration. Now your `.eslintrc.json` file should look like this
+```json
+{
+  //  eslint-config-react-app and eslint-config-prettier
+  "extends": ["react-app", "prettier"]
+}
+```
 
