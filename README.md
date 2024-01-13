@@ -395,6 +395,13 @@ It’s strongly recommended that you assign proper keys whenever you build dynam
 ## Thinking in React
 [This is excellent](https://react.dev/learn/thinking-in-react). Read it!
 
+## Local setup
+### Install Editor
+I'm using Jetbrains Rider.
+
+### Install Node
+Follow [this guide.](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/local-setup.md#setup-node)
+
 ## Editor Setup
 [Reference](https://react.dev/learn/editor-setup)
 
@@ -414,8 +421,7 @@ Then integrate ESLint in Rider [using this guide](https://www.jetbrains.com/help
 
 <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/ae0778c0-cb31-4c57-9c54-c99ba3f34db7">
 
-Side note about `^` and `~` in version numbers
-
+**Note about `^` and `~` in version numbers:**
 - The caret (`^`) allows changes that do not include the next major version.<br>
   For example, `^2.3.0` allows changes from `2.3.0` up to but not including `3.0.0`.
 - The tilde (`~`) allows changes that do not include the next minor version and major version, thereby only allowing patch-level changes for a given minor version.<br>
@@ -428,9 +434,14 @@ Side note about `^` and `~` in version numbers
 npm install --save-dev --save-exact prettier
 ```
 
+Create a file named `.prettierignore` at the `package.json` level to specify files you want to ignore. For example:
+```
+node_modules
+```
+
 Configure Prettier in Rider
 
-<img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/671519b5-c8bc-4708-848a-bde74887f6f8">
+<img width="500" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/671519b5-c8bc-4708-848a-bde74887f6f8">
 
 [Turn off all rules that are unnecessary or might conflict with Prettier](https://github.com/prettier/eslint-config-prettier)
 ```bash
