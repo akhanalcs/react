@@ -450,5 +450,25 @@ npm install --save-dev eslint-config-prettier
 And add this to your ESLint configuration. Now your `.eslintrc.json` file should look like this
 https://github.com/akhanalcs/reactjs/blob/a4eeae7e6a223af654c8999eae395e398b01d7c1/tic-tac-toe/.eslintrc.json#L1-L9
 
+## Using TypeScript
+[Reference](https://react.dev/learn/typescript)
+
+### Indexed Access Type
+[More info here](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/learn-typescript.md#indexed-access-type)
+```js
+interface MyInterface {
+  name: string;
+  age: number;
+}
+
+let obj: MyInterface = { name: 'John', age: 25 };
+
+// Access the value of a property
+let ageValue: number = obj['age'];
+console.log(ageValue);
+
+// Access the type of a property (Indexed Access Type example)
+type AgeType = MyInterface['age']; // Type of 'AgeType' is number
+```
 
 
