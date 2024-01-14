@@ -448,15 +448,7 @@ Configure Prettier in Rider
 npm install --save-dev eslint-config-prettier
 ```
 And add this to your ESLint configuration. Now your `.eslintrc.json` file should look like this
-```json
-{
-  // ESLint preset is a shareable config package that defines a set of rules
-  // "react-app" and "prettier" are ESLint presets
+https://github.com/akhanalcs/reactjs/blob/a4eeae7e6a223af654c8999eae395e398b01d7c1/tic-tac-toe/.eslintrc.json#L1-L9
 
-  // extends field refers to the rulesets you want ESLint to follow when linting the code
-  // "react-app" -> rules defined in eslint-config-react-app
-  // "prettier" -> rules defined in eslint-config-prettier
-  "extends": ["react-app", "prettier"]
-}
-```
+
 
