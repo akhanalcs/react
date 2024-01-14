@@ -450,6 +450,37 @@ npm install --save-dev eslint-config-prettier
 And add this to your ESLint configuration. Now your `.eslintrc.json` file should look like this
 https://github.com/akhanalcs/reactjs/blob/a4eeae7e6a223af654c8999eae395e398b01d7c1/tic-tac-toe/.eslintrc.json#L1-L9
 
+## Flux Pattern
+[Reference](https://facebookarchive.github.io/flux/docs/in-depth-overview#structure-and-data-flow)
+
+Data in a flux application flows in a single direction.
+
+<img width="650" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/2a5b38ba-b314-48e1-b070-c5cb0d7cd42c">
+
+- Actions are simple objects containing the new data and an identifying _type_ property.
+  
+  For eg (taken from example below):
+  ```js
+  { type: "setCount", value: state.count + 5 }
+  ```
+- Views may cause a new **action** to be propagated in response to user interaction
+
+  <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/bf8209dd-d5b7-4993-91a8-57369ff3db59">
+- All data flows through the **dispatcher** as a central hub. Actions are provided to dispatcher in an _action creator_ method.
+  ```js
+  // Action creator example
+  function setCount(value) {
+    return { type: "setCount", value: value};
+  }
+  ```
+
+Fireship one:
+<img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
+
+
+
+
+
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
 
