@@ -402,6 +402,10 @@ I'm using Jetbrains Rider.
 ### Install Node
 Follow [this guide](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/local-setup.md#setup-node).
 
+### Install DevTools Extensions
+[React DevTools](https://microsoftedge.microsoft.com/addons/detail/react-developer-tools/gpphkfbcpidddadnkolkpfckpihlkkil?hl=en-US)  
+[Redux DevTools](https://microsoftedge.microsoft.com/addons/detail/redux-devtools/nnkgneoiohoecpdiaponcejilbhhikei?hl=en-US)
+
 ## Editor Setup
 [Reference](https://react.dev/learn/editor-setup)
 
@@ -501,6 +505,9 @@ flux-example
   https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/App.js#L1-L13
 
 ## Redux
+[Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
+
+
 Fireship one:
 <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
 
