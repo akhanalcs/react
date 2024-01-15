@@ -42,12 +42,6 @@ code {
   font-size: 1.2em;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
-  margin: 20px;
-  padding: 0;
+ul {
+  padding-inline-start: 20px;
 }
