@@ -451,77 +451,58 @@ And add this to your ESLint configuration. Now your `.eslintrc.json` file should
 https://github.com/akhanalcs/reactjs/blob/a4eeae7e6a223af654c8999eae395e398b01d7c1/tic-tac-toe/.eslintrc.json#L1-L9
 
 ## Flux Pattern
-[Reference](https://github.com/facebookarchive/flux/tree/main/examples/flux-concepts)
+[Reference](https://github.com/facebookarchive/flux/tree/main/examples/flux-concepts) (Read this!)
 
 Data in a flux application flows in a single direction.
 
-<img width="650" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/2a5b38ba-b314-48e1-b070-c5cb0d7cd42c">
+<img width="650" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/8080943d-3818-4558-86a0-b5f3c44deb65">
 
 Explanation with a simple example
 ```bash
-some-project
+flux-example
 ├── public
 │   └── index.html
 ├── src
-│   ├── actions
-│   │   └── counterActions.js 👈
-│   ├── stores
-│   │   └── counterStore.js 👈
+│   ├── containers
+│   │   └── AppContainer.js // 👈 Controller View
+│   ├── data
+│   │   ├── CounterActions.js // 👈 Action creator
+│   │   ├── CounterActionTypes.js // 👈 Just holds some constants. Nothing special here
+│   │   ├── CounterStore.js // 👈 Store
+│   │   └── Dispatcher.js // 👈 Singleton dispatcher per project
 │   ├── App.js
 │   ├── index.js
 │   └── styles.css
-├── appDispatcher.js 👈
 └── package.json
 ```
 
+<img width="750" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/47b9b72b-f9b4-4b0d-95ea-1d5b05615cee">
+
 - Actions are simple objects containing the new data and an identifying _type_ property. For eg:
   ```js
-  { actionType: 'add-five-count', value: count + 5 }
+  { type: 'ADD', value: count }
   ```
-  Consider this more elaborate example:
-  ```js
-  // src/actions/counterActions.js
-  import dispatcher from "../appDispatcher";
-  // Action Creators in Flux are functions that create action objects and dispatch these actions
-  // .dispatch method will send the action to the store
-  export function addFiveToCount(count) {
-    dispatcher.dispatch({ actionType: 'add-five-count', value: count + 5 });
-  };
-  ```
-- Views may cause a new **action** to be propagated in response to user interaction
-
-  <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/bf8209dd-d5b7-4993-91a8-57369ff3db59">
-  
-  ```jsx
-  <button onClick={addFiveToCount(this.state.count)}>Add 5</button>
-  ```
+- Action creators are helper methods that create an action and dispatch it to the dispatcher. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/data/CounterActions.js#L5-L10
 - All data flows through the **dispatcher** as a central hub. Actions are provided to dispatcher in an _action creator_ method and most often originate from user interactions with the views.
-  ```js
-  // src/appDispatcher.js
-  import { Dispatcher } from "flux";
-  const dispatcher = new Dispatcher();
-  export default dispatcher;
-  ```
+  It is essentially a registry of callbacks into the stores and has no real intelligence of its own — it is a simple mechanism for distributing the actions to the stores. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/data/Dispatcher.js#L1-L3
 
-- Stores contain the application state and logic. Their role is somewhat similar to a model in a traditional MVC, but they manage the state of many objects — they do not represent a single record of data like ORM models do. Stores manage the application state for a particular domain within the application.
-  ```js
-  // src/stores/counterStore.js
-  import dispatcher from "../appDispatcher";
-  // Action Creators in Flux are functions that create action objects and dispatch these actions
-  // .dispatch method will send the action to the store
-  export function addFiveToCount(count) {
-    dispatcher.dispatch({ actionType: 'add-five-count', value: count + 5 });
-  };
-  ```
-  
-  
+  Each store registers itself and provides a callback. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/data/CounterStore.js#L5-L27
+  When an action creator provides the dispatcher with a new action, all stores in the application receive the action via the callbacks in the registry.
+- **Stores** contain the application state and logic. They register themselves with the dispatcher upon creation. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/data/CounterStore.js#L5-L9
+  Their role is somewhat similar to a model in a traditional MVC, but they manage the state of many objects — they do not represent a single record of data like ORM models do. Stores manage the application state for a particular domain within the application.  
+  Stores emit a 'change' event when their state changes.
+- **Controller views** are React components that listen for those 'change' events, retrieve new data from the stores, and re-render. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/containers/AppContainer.js#L5-L21
+- **Views** are typically dumb components that take the data passed in via props and render UI. For eg:
+  https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/App.js#L1-L13
 
+## Redux
 Fireship one:
 <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
-
-
-
-
 
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
