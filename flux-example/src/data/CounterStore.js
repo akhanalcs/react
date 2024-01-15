@@ -4,14 +4,18 @@ import Dispatcher from "./Dispatcher";
 
 class CounterStore extends ReduceStore {
   constructor() {
+    // This registers this store with the provided Dispatcher
     super(Dispatcher);
   }
   getInitialState() {
     return 0;
   }
 
+  // This is the callback that's registered with the dispatcher
+  // Whenever a new state is returned from this function, the store automatically emits a change event
+  // Controller-views listen for those change events, retrieve new data from store and re-render
   reduce(state, action) {
-    switch (action.actionType) {
+    switch (action.type) {
       case CounterActionTypes.ADD:
         return state + action.value;
       case CounterActionTypes.RESET:
