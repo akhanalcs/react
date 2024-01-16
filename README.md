@@ -507,6 +507,53 @@ flux-example
 ## Redux
 [Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
 
+Redux is a pattern and library for managing and updating application state, using events called "actions". It serves as a centralized store for state that needs to be used across your entire application with rules ensuring that the state can only be updated in a predictable fashion.
+
+### Quick Start
+[Reference](https://redux-toolkit.js.org/tutorials/quick-start)
+
+- Add Redux to your project
+  ```bash
+  npm install @reduxjs/toolkit react-redux
+  ```
+- Create a redux store using a root reducer function.
+- Provide the Redux store to React
+- Create a Redux state slice
+- Add slice reducers to the store
+- Use Redux state and actions in React components
+
+### Terminology
+[Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
+
+- Action
+  
+  An action is a plain JS object that has a type field. You can think of an action as an event that describes something that happened in the app. The type field is written like `"domain/eventName"`. Action object can have other fields with additional information which is put in a field called `payload`. For eg:
+  ```js
+  const addCounterAction = {
+    type: 'counter/add',
+    payload: 5
+  }
+  ```
+- Action Creators
+
+  Is a function that creates and returns an action object. For eg:
+  ```js
+  const addCounter = count => {
+    return {
+      type: 'counter/add',
+      payload: count
+    }
+  }
+  ```
+
+- Reducers
+
+  Is a function that receives `state` and `action` object, decides how to update the state if necessary and returns the new state. Think of a reducer as an event listener which handles events based on the received action (event) type.
+  They are not allowed to modify the existing state. Instead, they must make immutable updates, by copying the existing state and making changes to the copied values.
+
+- Store
+
+  d
 
 Fireship one:
 <img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
