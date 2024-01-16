@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   value: 0,
 };
+
+// camelCase because it's not a component or a class
 export const counterSlice = createSlice({
   name: "counter",
   initialState,
