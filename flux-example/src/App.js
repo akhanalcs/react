@@ -1,6 +1,6 @@
 // This is the View
 export default function App(props) {
-    console.log(props);
+  console.log(props);
   return (
     <div>
       <h1>Welcome to my counter</h1>
