@@ -525,7 +525,7 @@ Redux is a pattern and library for managing and updating application state, usin
 ### Terminology
 [Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
 
-- Action
+- **Action**
   
   An action is a plain JS object that has a type field. You can think of an action as an event that describes something that happened in the app. The type field is written like `"domain/eventName"`. Action object can have other fields with additional information which is put in a field called `payload`. For eg:
   ```js
@@ -534,29 +534,159 @@ Redux is a pattern and library for managing and updating application state, usin
     payload: 5
   }
   ```
-- Action Creators
+- **Action Creators**
 
   Is a function that creates and returns an action object. For eg:
   ```js
-  const addCounter = count => {
+  const increment = () => {
     return {
-      type: 'counter/add',
-      payload: count
+      type: 'counter/increment'
     }
   }
   ```
 
-- Reducers
+- **Reducers**
 
   Is a function that receives `state` and `action` object, decides how to update the state if necessary and returns the new state. Think of a reducer as an event listener which handles events based on the received action (event) type.
   They are not allowed to modify the existing state. Instead, they must make immutable updates, by copying the existing state and making changes to the copied values.
+  ```js
+  // IMPORTANT: Parameters of a reducer function are (previousResult, currentItem)
+  function counterReducer(state = initialState, action) {
+    // Check to see if the reducer cares about this action
+    if (action.type === 'counter/increment') {
+      // If so, make a copy of `state`
+      return {
+        ...state,
+        // and update the copy with the new value
+        value: state.value + 1
+      }
+    }
+    // otherwise return the existing state unchanged
+    return state
+  }
+  ```
 
-- Store
+  Usage of reducer in `Array.reduce()` method
+  ```js
+  const actions = [
+    { type: 'counter/increment' },
+    { type: 'counter/increment' }
+  ];
 
-  d
+  const initialState = { value: 0 };
 
-Fireship one:
-<img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
+  const finalResult = actions.reduce(counterReducer, initialState);
+  console.log(finalResult); // { value: 2 }
+  ```
+
+- **Store**
+
+  Redux application state lives in an object called the store. The store is created by passing in a reducer and has a method called `getState()` that returns the current state value.
+  ```js
+  import { configureStore } from '@reduxjs/toolkit'
+  
+  const store = configureStore({ reducer: counterReducer })
+  
+  console.log(store.getState())
+  // {value: 0}
+  ```
+
+- **Dispatch**
+
+  The redux store has a method called `dispatch`. The only way to update the state is to call `store.dispatch()` and pass in an action object. The store will run its reducer function and save the new state value inside and we can call `getState()` to retrieve the updated value.
+  ```js
+  store.dispatch({ type: 'counter/increment' })
+  
+  console.log(store.getState())
+  // {value: 1}
+  ```
+
+  You can think of dispatching actions as "triggering an event" in the application. Something happened, and we want the store to know about it. Reducers act like event listeners, and when they hear an action they are interested in, they update the state in response.
+
+  We typically call action creators to dispatch the right action:
+  ```js
+  const increment = () => {
+    return {
+      type: 'counter/increment'
+    }
+  }
+
+  store.dispatch(increment())
+
+  console.log(store.getState())
+  // {value: 2}
+  ```
+
+- **Selectors**
+  Selectors are functions that know how to extract specific pieces of information from a store state value. As an application grows bigger, this can help avoid repeating logic as different parts of the app need to read the same data:
+  ```js
+  const selectCounterValue = state => state.value
+  
+  const currentValue = selectCounterValue(store.getState())
+  console.log(currentValue)
+  // 2
+  ```
+
+### Redux data flow
+[Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts#redux-application-data-flow)
+
+<table>
+<thead>
+  <tr>
+    <th>Step 1</th>
+    <th>Step 2</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/5ea040db-eeac-4225-a0ca-811064a57de3">
+    <p>A bank teller clicks 'Deposit' button in the UI.</p>
+  </td>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/f346530b-daae-4d78-b295-006ef3c4b7ce">
+    <p>An action creator will create an action object which is given to the Dispatcher. Dispatcher then sends it to the Redux store.</p>
+  </td>
+  </tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+  <tr>
+    <th>Step 3</th>
+    <th>Step 4</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/b3a1563e-a626-4f90-a4a5-ae718f3269a8">
+    <p>The store runs the reducer function using the previous <code>state</code> and the current action, and saves the return value as the new <code>state</code>.</p>
+    <p>The store notifies all parts of the UI that are subscribed that the store has been updated.</p>
+  </td>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/714bdc23-e615-4360-a219-ae994424d122">
+  </td>
+  </tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+  <tr>
+    <th>Step 5</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/145a1183-4929-4339-a054-d6d6dd48598b">
+    <p>Each component that sees its data has changed forces a re-render with the new data, so it can update what's shown on the screen.</p>
+  </td>
+  </tr>
+</tbody>
+</table>
 
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
