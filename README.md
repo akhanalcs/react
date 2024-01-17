@@ -630,6 +630,11 @@ Redux is a pattern and library for managing and updating application state, usin
 ### Redux data flow
 [Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts#redux-application-data-flow)
 
+- Redux dispatches a special action when the store is created.
+- Your overall `counterSlice.reducer` sees this action.
+- The `counterSlice.reducer` returns the initialState you defined.
+- Redux uses this returned `initialState` as the initial state for your store.
+
 <table>
 <thead>
   <tr>
@@ -687,6 +692,8 @@ Redux is a pattern and library for managing and updating application state, usin
   </tr>
 </tbody>
 </table>
+
+### Finish reading the Essentials and Fundamentals section of Redux docs
 
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
