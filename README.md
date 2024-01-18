@@ -693,7 +693,8 @@ Redux is a pattern and library for managing and updating application state, usin
 </tbody>
 </table>
 
-### Finish reading the Essentials and Fundamentals section of Redux docs
+### Finish reading the ['Essentials'](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) section of Redux docs
+[Essentials vs Fundamentals difference](https://www.reddit.com/r/reactjs/comments/ss8woy/comment/hwwts55/?utm_source=share&utm_medium=web2x&context=3)
 
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
