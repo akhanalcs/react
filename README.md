@@ -504,6 +504,71 @@ flux-example
 - **Views** are typically dumb components that take the data passed in via props and render UI. For eg:
   https://github.com/akhanalcs/reactjs/blob/479bd290f9250bc8479b8206692f2354c5afe701/flux-example/src/App.js#L1-L13
 
+## Thunks
+- Used for delaying the computation of result until it's needed (lazy evaluation).
+- Controlling the order of asynchronous operations.
+- Wrapping computations to be invoked later.
+
+The below example lets you start a task right away when called and grab the result at a later time.
+It also lets you grab the results of multiple tasks in a particular order even if, for example, the first task takes longer than the second one.
+
+```js
+// It kicks off an asynchronous task that takes 'effort' milliseconds
+function DoSomething(task, effort) {
+  console.log(task + " started");
+
+  let data, fn; // fn is assigned with callback later
+  setTimeout(() => {
+    data = task + " completed";
+    if (fn) {
+      fn(data);
+    }
+  }, effort);
+
+  // This is a THUNK because it defers some work for later
+  // it can be named, or anonymous
+  return function (callback) {
+    if (data) {
+      // Case 1. Our task has completed by the time the callback is passed to it
+      // At this point we already have data, so give it to the callback by calling it with 'data'
+      callback(data);
+    } else {
+      // Case 2. Our task hasn't completed when the callback is passed to it
+      // Assign 'fn' here so that callback will be called with the data when the task completes (inside setTimeout)
+      fn = callback;
+    }
+  };
+}
+
+// Both of these calls complete immediately which starts both of the tasks
+// At this point, const task1 and const task2 have the return function assigned to them
+// Because of 'closure' the inner returned function(function (callback)) will have access to outer scope variables 'data' and 'fn' even after 'DoSomething' has returned
+const task1 = DoSomething("task1", 6000); // task1 takes 6 seconds
+const task2 = DoSomething("task2", 3000); // task2 takes 3 seconds
+
+// I need results of task1 in task2. Remember: task1 takes longer than task2
+// I want both tasks to start together. By the time task1 completes, task2 will also have completed
+task1(function (task1data) {
+  console.log(task1data);
+
+  // task2 has already completed by now (since it was shorter)
+  // so calling task2 with a callback immediately logs the result of task2
+  task2(function (task2data) {
+    // At this point, task1data is always defined
+    if (task1data) {
+      console.log(task2data);
+    }
+  });
+});
+// The output is:
+// task1 started
+// task2 started
+// task1 completed
+// task2 completed
+```
+
+For more info, read [this](https://daveceddia.com/what-is-a-thunk/) and watch [this](https://youtu.be/EhyuWntGA8s?si=qPZGD1RIy6YNEOPF).
+
 ## Redux
 [Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
 
@@ -525,7 +590,7 @@ Redux is a pattern and library for managing and updating application state, usin
 ### Terminology
 [Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts)
 
-- Action
+- **Action**
   
   An action is a plain JS object that has a type field. You can think of an action as an event that describes something that happened in the app. The type field is written like `"domain/eventName"`. Action object can have other fields with additional information which is put in a field called `payload`. For eg:
   ```js
@@ -534,29 +599,248 @@ Redux is a pattern and library for managing and updating application state, usin
     payload: 5
   }
   ```
-- Action Creators
+- **Action Creators**
 
   Is a function that creates and returns an action object. For eg:
   ```js
-  const addCounter = count => {
+  const increment = () => {
     return {
-      type: 'counter/add',
-      payload: count
+      type: 'counter/increment'
     }
   }
   ```
 
-- Reducers
+- **Reducers**
 
   Is a function that receives `state` and `action` object, decides how to update the state if necessary and returns the new state. Think of a reducer as an event listener which handles events based on the received action (event) type.
   They are not allowed to modify the existing state. Instead, they must make immutable updates, by copying the existing state and making changes to the copied values.
+  ```js
+  // IMPORTANT: Parameters of a reducer function are (previousResult, currentItem)
+  function counterReducer(state = initialState, action) {
+    // Check to see if the reducer cares about this action
+    if (action.type === 'counter/increment') {
+      // If so, make a copy of `state`
+      return {
+        ...state,
+        // and update the copy with the new value
+        value: state.value + 1
+      }
+    }
+    // otherwise return the existing state unchanged
+    return state
+  }
+  ```
 
-- Store
+  Usage of reducer in `Array.reduce()` method
+  ```js
+  const actions = [
+    { type: 'counter/increment' },
+    { type: 'counter/increment' }
+  ];
 
-  d
+  const initialState = { value: 0 };
 
-Fireship one:
-<img width="550" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/4e9634ca-f15f-4299-ab3c-99d564f450b1">
+  const finalResult = actions.reduce(counterReducer, initialState);
+  console.log(finalResult); // { value: 2 }
+  ```
+
+- **Store**
+
+  Redux application state lives in an object called the store. The store is created by passing in a reducer and has a method called `getState()` that returns the current state value.
+  ```js
+  import { configureStore } from '@reduxjs/toolkit'
+  
+  const store = configureStore({ reducer: counterReducer })
+  
+  console.log(store.getState())
+  // {value: 0}
+  ```
+
+- **Dispatch**
+
+  The redux store has a method called `dispatch`. The only way to update the state is to call `store.dispatch()` and pass in an action object. The store will run its reducer function and save the new state value inside and we can call `getState()` to retrieve the updated value.
+  ```js
+  store.dispatch({ type: 'counter/increment' })
+  
+  console.log(store.getState())
+  // {value: 1}
+  ```
+
+  You can think of dispatching actions as "triggering an event" in the application. Something happened, and we want the store to know about it. Reducers act like event listeners, and when they hear an action they are interested in, they update the state in response.
+
+  We typically call action creators to dispatch the right action:
+  ```js
+  const increment = () => {
+    return {
+      type: 'counter/increment'
+    }
+  }
+
+  store.dispatch(increment())
+
+  console.log(store.getState())
+  // {value: 2}
+  ```
+
+- **Selectors**
+  Selectors are functions that know how to extract specific pieces of information from a store state value. As an application grows bigger, this can help avoid repeating logic as different parts of the app need to read the same data:
+  ```js
+  const selectCounterValue = state => state.value
+  
+  const currentValue = selectCounterValue(store.getState())
+  console.log(currentValue)
+  // 2
+  ```
+
+### Redux data flow
+[Reference](https://redux.js.org/tutorials/essentials/part-1-overview-concepts#redux-application-data-flow)
+
+- Redux dispatches a special action when the store is created.
+- Your overall `counterSlice.reducer` sees this action.
+- The `counterSlice.reducer` returns the initialState you defined.
+- Redux uses this returned `initialState` as the initial state for your store.
+
+<table>
+<thead>
+  <tr>
+    <th>Step 1</th>
+    <th>Step 2</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/5ea040db-eeac-4225-a0ca-811064a57de3">
+    <p>A bank teller clicks 'Deposit' button in the UI.</p>
+  </td>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/f346530b-daae-4d78-b295-006ef3c4b7ce">
+    <p>An action creator will create an action object which is given to the Dispatcher. Dispatcher then sends it to the Redux store.</p>
+  </td>
+  </tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+  <tr>
+    <th>Step 3</th>
+    <th>Step 4</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/b3a1563e-a626-4f90-a4a5-ae718f3269a8">
+    <p>The store runs the reducer function using the previous <code>state</code> and the current action, and saves the return value as the new <code>state</code>.</p>
+    <p>The store notifies all parts of the UI that are subscribed that the store has been updated.</p>
+  </td>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/714bdc23-e615-4360-a219-ae994424d122">
+  </td>
+  </tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+  <tr>
+    <th>Step 5</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+  <td valign="top" width="450px">
+    <img width="450" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/145a1183-4929-4339-a054-d6d6dd48598b">
+    <p>Each component that sees its data has changed forces a re-render with the new data, so it can update what's shown on the screen.</p>
+  </td>
+  </tr>
+</tbody>
+</table>
+
+### Redux Thunk
+[Read this](https://redux.js.org/tutorials/essentials/part-2-app-structure#writing-async-logic-with-thunks)
+
+A thunk is a specific kind of Redux function that can contain asynchronous logic. Thunks are written using 2 functions:
+1. Inside thunk function which gets `dispatch` and `getState` as arguments
+2. The outside creator function which creates and returns the thunk function.
+
+Simple example
+```js
+// thunk action creator
+// allows us to do async logic
+// can be dispatched like regular action. For eg: dispatch(incrementAsync(1)
+// the outside "thunk creator" function
+export const incrementAsync = (amount) => {
+  // the inside "thunk function" that takes 'dispatch' as argument
+  // used to delay the dispatch of 'add()` action
+  // this returned function is called by redux-thunk middleware
+  // For eg: when redux-thunk middleware sees the result from 'incrementAsync(1)',
+  // it says "Oh, this is a function, let me call it for you!", and provides it with
+  // the dispatch and getState arguments (which are bound to the current store).
+  return (dispatch) => {
+    setTimeout(() => {
+      // After the timeout is done, normal Redux action is dispatched to the store
+      dispatch(add(amount));
+    }, 1000);
+  };
+};
+```
+
+Example with an API call
+```js
+// the outside "thunk creator" function
+const fetchUserById = userId => {
+  // the inside "thunk function"
+  return async (dispatch, getState) => {
+    try {
+      // make an async call in the thunk
+      const user = await userAPI.fetchById(userId)
+      // dispatch an action when we get the response back
+      dispatch(userLoaded(user))
+    } catch (err) {
+      // If something went wrong, handle it here
+    }
+  }
+}
+```
+
+Remember that we're **not** allowed to put any kind of async logic in reducers.
+
+### Redux ThunkMiddleware
+```js
+const thunkMiddleware =
+  ({ dispatch, getState }) =>
+  next =>
+  action => {
+    if (typeof action === 'function') {
+      return action(dispatch, getState)
+    }
+
+    return next(action)
+  }
+```
+
+- When the store is created, the middleware is setup
+  ```js
+  const thunk = thunkMiddleware({dispatch: store.dispatch, getState: store.getState}); 
+  ```
+  `thunk` gets called every time an action is dispatched.
+- When an action is dispatched (for example, `store.dispatch(incrementAsync())`), Redux internally calls the `thunk` function with the next dispatch function, which belongs to the next middleware in the chain or to the store, if there are no more middlewares. For simplicity, let's assume there are no more middlewares, so `next` would be the `store.dispatch`.
+  ```js
+  const actionHandler = thunk(store.dispatch);
+  ```
+  This `actionHandler` function is not reused; a new one is created for every dispatched action.
+- Redux calls this `actionHandler` with the dispatched action
+  ```js
+  actionHandler(incrementAsync()); 
+  ```
+  Inside the middleware, the `if (typeof action === 'function')` block gets executed and `action(dispatch, getState)` is called, which calls your thunk action with the dispatch and getState.
+  
+  This sets the timeout and after 1 second, we go back to step 2 and at step 3, we get to `return next(action)` which just passes the action to the store's dispatch function, which in turn activates the reducer with that action.
+
+### Finish reading the ['Essentials'](https://redux.js.org/tutorials/essentials/part-1-overview-concepts) section of Redux docs
+[Essentials vs Fundamentals difference](https://www.reddit.com/r/reactjs/comments/ss8woy/comment/hwwts55/?utm_source=share&utm_medium=web2x&context=3)
 
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
