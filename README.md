@@ -897,8 +897,118 @@ console.log(ageValue);
 type AgeType = MyInterface['age']; // Type of 'AgeType' is number
 ```
 
+### Finish reading the ['Using TypeScript'](https://react.dev/learn/typescript) section of React docs
+This is also a great page: https://react-typescript-cheatsheet.netlify.app/
+
+## Some React Hooks
+[Reference](https://react.dev/reference/react/hooks)(Read this!)
+
+### useRef
+`useRef` lets you reference a value that's not needed for rendering.
+By using a ref, you ensure that
+- You can store information between re-renders unlike regular variables which reset on every render.
+- Changing it does not trigger a re-render unlike state variables which trigger a re-render.
+- The information is local to each copy of component unlike the variables outside which are shared.
+
+In example below `intervalIdRef` is essentially used as a mutable instance variable that exists over the lifecycle of the component.
+It does not cause a rerender when its value changes and it survives between component renders so that we can use it to stop `setInterval()`.
+https://github.com/akhanalcs/reactjs/blob/24ba803817c4e6b733f049f7d0ce3d271f6ae9bc/hooks-examples/src/components/Stopwatch.tsx#L1-L50
+
+### useEffect
+[Reference](https://react.dev/reference/react/useEffect)
+
+`useEffect` lets you synchronize a component with an external system. This includes dealing with network, browser DOM, animations, widgets written using a different UI library, and other non-React code.
+
+Effects let you specify side effects caused by the rendering itself, rather than by a particular event.
+
+For eg: Consider a ChatRoom component that must connect to the chat server whenever it’s visible on the screen. Connecting to a server is not a pure calculation (it’s a side effect) so it can’t happen during rendering. However, there is no single particular event like a click that causes ChatRoom to be displayed.
+
+For eg:
+```js
+import { useEffect } from 'react';
+import { createConnection } from './chat.js';
+
+function ChatRoom({ roomId }) {
+  const [serverUrl, setServerUrl] = useState('https://localhost:1234');
+
+  useEffect(() => {
+    const connection = createConnection(serverUrl, roomId);
+    connection.connect();
+    return () => {
+      connection.disconnect();
+    };
+  }, [serverUrl, roomId]);
+  // ...
+}
+```
+The second argument: `[serverUrl, roomId]` is the dependency array of the `useEffect` hook.
+
+- If you pass an empty array [] as the second argument to `useEffect`, it means "run this effect once after the initial render, and do not run it after any subsequent renders."
+- If you pass an array with variables like `[serverUrl, roomId]`, it means "run this effect after the initial render, and also run it after any subsequent render if the values of `serverUrl` or `roomId` have changed since the last render."
+- If you omit the second argument, it means "run this effect after every render."
+
+### useMemo
+`useMemo` lets you cache the result of an expensive calculation.
+
+```js
+function TodoList({ todos, tab, theme }) {
+  const visibleTodos = useMemo(() => filterTodos(todos, tab), [todos, tab]);
+  // ...
+}
+```
+
+The `useMemo` hook takes two parameters: a function and a dependency array. The function you pass as the first parameter generates the value to be stored, and the array you pass as the second parameter tells React when to update that value.
+
+It only re-runs `filterTodos(todos, tab)` if `todos` or `tab` changes.
+If neither `todos` nor `tab` changes between renders, `useMemo` just returns the most recent memoized value without running `filterTodos` function again.
+
+### useCallback
+`useCallback` lets you cache a function definition between re-renders.
+
+In JavaScript, functions are objects, and creating a function is an operation that consumes some resources.
+
+Consider this simple counter example
+```js
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function incrementCount() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={incrementCount}>Increment</button>
+    </div>
+  );
+}
+```
+Here a new function (i.e., a new object) is created each time the `Counter` component is rendered. Typically, this might not be an issue, but if the `Counter` component re-renders frequently or `incrementCount` is passed as a prop to child components, this could potentially lead to performance issues.
+
+This is where `useCallback` comes in handy. With `useCallback`, React can "memoize" the function — the incrementCount function is not recreated on every render, but only when a value in the dependency array changes.
+
+For eg:
+```js
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  const incrementCount = useCallback(() => {
+    setCount(count + 1);
+  }, [count]);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <ExpensiveChildComponent onEventHappens={incrementCount} />
+    </div>
+  );
+}
+```
+If `Counter` was re-rendering frequently but `count` wasn't changing, then `incrementCount` would remain the same between renders, but without `useCallback`, a new `incrementCount` function would be created every render, potentially causing unnecessary renders of `ExpensiveChildComponent` that depend on the `incrementCount` prop.
+
 ### useContext
-`useContext` hook allows passing data down the component tree without having to pass props through components.
+Context lets a component receive information from distant parents without passing it as props. For example, your app’s top-level component can pass the current UI theme to all components below, no matter how deep.
 
 #### Create the context
 Here we specify what the context will contain.
@@ -914,3 +1024,6 @@ Here the value of theme will be whatever value is currently provided via ThemeCo
 Use it using `useContext`.
 https://github.com/akhanalcs/reactjs/blob/aaf01cebf2c9b5db0354ae664532c303741fccbe/hooks-examples/src/MyComponent.tsx#L1-L11
 
+## Finish reading the ['Learn React'](https://react.dev/learn/typescript) section of React docs
+If you made it this far, this section isn't strictly necessary to learn at this time, but read it and practice it when you get time.
+The docs are excellent. 
