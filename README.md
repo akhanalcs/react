@@ -845,8 +845,8 @@ const thunkMiddleware =
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
 
-## Add TS to existing project
-- Install packages
+### Add TS to existing project
+- Add type definitions
   ```bash
   npm install @types/react @types/react-dom --save-dev
   ```
@@ -872,7 +872,7 @@ const thunkMiddleware =
   - Change `index.js` to `index.tsx`
 - Fix error in `index.tsx`
 
-  <img width="500" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/76335dd8-b71e-43e8-be8b-ef6298a42261">
+  <img width="600" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/76335dd8-b71e-43e8-be8b-ef6298a42261">
 
   For eg: use non-null assertion operator
   ```ts
@@ -898,5 +898,19 @@ type AgeType = MyInterface['age']; // Type of 'AgeType' is number
 ```
 
 ### useContext
+`useContext` hook allows passing data down the component tree without having to pass props through components.
 
+#### Create the context
+Here we specify what the context will contain.
+https://github.com/akhanalcs/reactjs/blob/aaf01cebf2c9b5db0354ae664532c303741fccbe/hooks-examples/src/contexts/ThemeContext.ts#L1-L7
+
+#### Provide the context
+This makes the provided value available to `<MyComponent />` and all of its children components.
+https://github.com/akhanalcs/reactjs/blob/aaf01cebf2c9b5db0354ae664532c303741fccbe/hooks-examples/src/App.tsx#L1-L17
+
+#### Consume the context
+Here the value of theme will be whatever value is currently provided via ThemeContext.Provider in App component.
+
+Use it using `useContext`.
+https://github.com/akhanalcs/reactjs/blob/aaf01cebf2c9b5db0354ae664532c303741fccbe/hooks-examples/src/MyComponent.tsx#L1-L11
 
