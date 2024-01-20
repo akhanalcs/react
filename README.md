@@ -845,6 +845,40 @@ const thunkMiddleware =
 ## Using TypeScript
 [Reference](https://react.dev/learn/typescript)
 
+## Add TS to existing project
+- Install packages
+  ```bash
+  npm install @types/react @types/react-dom --save-dev
+  ```
+- Add `tsconfig.json`
+  ```json
+  {
+    "compilerOptions": {
+      "target": "ES2022",
+      "module": "ES2022",
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true, // This makes noImplicitAny as true
+      "lib": [
+        "ES2022",
+        "dom"
+      ],
+      "jsx": "preserve"
+    }
+  }
+  ```
+- Change filename extensions. If you have JSX in your file, change its extension to `.tsx` otherwise change it to `.ts`. For eg:
+  - Change `App.js` to `App.tsx`
+  - Change `index.js` to `index.tsx`
+- Fix error in `index.tsx`
+
+  <img width="500" alt="image" src="https://github.com/akhanalcs/reactjs/assets/30603497/76335dd8-b71e-43e8-be8b-ef6298a42261">
+
+  For eg: use non-null assertion operator
+  ```ts
+  const rootElement = document.getElementById("root")!;
+  ```
+
 ### Indexed Access Type
 [More info here](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/learn-typescript.md#indexed-access-type)
 ```js
@@ -862,5 +896,7 @@ console.log(ageValue);
 // Access the type of a property (Indexed Access Type example)
 type AgeType = MyInterface['age']; // Type of 'AgeType' is number
 ```
+
+### useContext
 
 
