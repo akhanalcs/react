@@ -897,6 +897,41 @@ console.log(ageValue);
 type AgeType = MyInterface['age']; // Type of 'AgeType' is number
 ```
 
+### Describing children of component
+```ts
+import React from "react"
+
+// React.ReactNode accepts the most inputs
+interface ReactNodeProps {
+  children: React.ReactNode;
+}
+
+const RNode = (props: ReactNodeProps) => <div>{props.children}</div>
+
+const ReactNodeApp = () => <>
+  <RNode><p>One element</p></RNode>
+  <RNode>
+    <>
+      <p>Fragments for</p>
+      <p>More elements</p>
+    </>
+  </RNode>
+  <RNode>1</RNode>  
+  <RNode>Hello</RNode>
+  <RNode>{null}</RNode>
+  <RNode>{true}</RNode>
+
+  // Must have children though
+  // Error: Property 'children' is missing in type '{}' but required in type 'ReactNodeProps'.
+  <RNode />
+</>
+```
+
+`RNode` is a React component that takes `props` as an argument.  `children` prop is a special prop in React which is used to pass components as data to other components.
+
+`<RNode><p>One element</p></RNode>` is an instance of usage of the `RNode` component with a single child which is `<p>One element</p>` element.  
+The output HTML would be `<div><p>One element</p></div>`.
+
 ### Finish reading the ['Using TypeScript'](https://react.dev/learn/typescript) section of React docs
 This is also a great page: https://react-typescript-cheatsheet.netlify.app/
 
