@@ -1,6 +1,60 @@
 # reactjs
 Learning React from [official docs](https://react.dev/learn) and various other sources.
 
+## Choices in React ecosystem
+### Build tools
+We have two build tools for React: Vite and Webpack
+- Remix, Astro use Vite. Pick Vite if you're doing SPA. So Vite will be common in enterprise apps
+- Next.js uses Webpack. Pick Next.js if you're doing SSR
+
+### State management
+- Generally no need for it but if you must, use Zustand (1) or Jotai (2) or Redux Toolkit (RTK)(3)
+- React Query is good for data fetching and is most useful for most apps. Learn it, I've also downloaded the tutorial from query.gg
+- With the new version of Next you don't even have to use React query. Is this correct? Source: https://www.reddit.com/r/reactjs/comments/1ib4kdp/comment/m9ffigg/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+- React Query is also a state management tool in that sense that all your state comes from your persistence layer, like your API
+- Do you need a big centralized interdependent state? Zustand. Do you need simple minimalist state? Jotai. Do you work on a 20 year old React app? Redux
+- Store more of your state on the url, less of it in the local memory of JS.
+- Use React's built in hooks like useState, useEffect, useReducer, useContext
+  - useCOntext gives you ability to get rid of prop drilling
+  - useReducer is good for complex intertwined state
+- Use tanstack query instead of custom useEffect hooks
+- Use Zustand instead of react context
+- Use 'react-hook-form' that deals with form state management
+
+A comment from Reddit:
+Just go with vite, tanstack router, tanstack query, react hook form, your ui library of choice. 
+For state management, tanstack query and useState/useReducer is enough, use zustand if you do need complicated state management though.
+
+### Routing
+- React Router is the most popular routing library, so use it unless you're using Next.js
+- Or use tanstack router if you're using Vite
+
+### UI components
+- MUI has been the longest-standing, so pick this one. This is the one used at IGS energy.
+- Mantine is good
+- Tailwind is getting popular
+- Shadcn has good DX. Second choice.
+
+### Formatting
+- Use biome instead of Prettier + ESLint
+
+### Example
+[Bulletproof React](https://github.com/alan2207/bulletproof-react)
+
+### Auth
+Great ideas below:
+- https://www.reddit.com/r/dotnet/comments/1cem098/role_based_authentication_in_net_and_react/
+- https://webflow-new.povio.com/blog/handling-authentication-in-spa-with-jwt-and-cookies
+- https://github.com/stewartcelani/AventureWorks-with-net-api-and-react-ui
+- https://github.com/Azure-Samples/ms-identity-ciam-javascript-tutorial
+- https://medium.com/@monkov/react-using-axios-interceptor-for-token-refreshing-1477a4d5fc26
+- https://github.com/AzureAD/microsoft-authentication-library-for-js/tree/dev/samples/msal-react-samples/typescript-sample
+- https://github.com/Azure-Samples/ms-identity-docs-code-javascript
+- https://github.com/Azure-Samples/ms-identity-docs-code-dotnet
+
+Rule of thumb:  
+Pick Vite for SPA, Next.js for SSR, React router for routing (Next.js app router if you're using Next), Redux for state management, and MUI for UI components.
+
 ## Helpful links
 1. [JavaScript Basics](https://github.com/akhanalcs/tour-of-heroes/blob/main/docs/learn-javascript.md) (Read it!)
 2. [10 React Hooks Explained](https://youtu.be/TNhaISOUy6Q?si=uGvmrS5tMAKaxS8e)
